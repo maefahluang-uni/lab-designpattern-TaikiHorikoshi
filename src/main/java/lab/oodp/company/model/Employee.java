@@ -10,6 +10,12 @@ import java.util.Objects;
  */
 public class Employee {
 
+	 private final int id;
+	    private String name;
+	    private String email;
+	    private String jobTitle;
+	    private int salary;
+	    Manager manager;
     /**
      * Creates a new employee
      *
@@ -21,6 +27,11 @@ public class Employee {
      */
     public Employee(int id, String name, String email, String jobTitle, int salary) {
         // TODO complete this
+    	this.id = id;
+        this.name = name;
+        this.email = email;
+        this.jobTitle = jobTitle;
+        this.salary = salary;
     }
 
     /**
@@ -28,9 +39,46 @@ public class Employee {
      *
      * @return the employee's manager, or null if the employee has no manager
      */
+    
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+    
     public Manager getManager() {
         // TODO complete this
-        return null;
+        return manager;
     }
 
     /**
@@ -46,14 +94,18 @@ public class Employee {
      */
     public List<Employee> getReportingChain() {
         // TODO complete this
-        return null;
-    }
+    	List<Employee> chain = manager == null ? new ArrayList<>() : manager.getReportingChain();
+        chain.add(this);
+        return chain;    }
 
     /**
      * Gets a string representation of this employee, which should be of the form: name (email: email)
      */
     // TODO override and implement toString()
-
+    @Override
+    public String toString() {
+        return name + " (email: " + email + ")";
+    }
     /**
      * Gets a value indicating whether this employee is equal to the given object. The object is considered equal if
      * it is non-null, is an Employee, and has a matching id, salary, name, email, and job title.
@@ -66,6 +118,20 @@ public class Employee {
      * @return true if the given object meets the conditions described above; false otherwise
      */
     // TODO override and implement equals()
-
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id &&
+                salary == employee.salary &&
+                name.equals(employee.name) &&
+                email.equals(employee.email) &&
+                jobTitle.equals(employee.jobTitle);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, jobTitle, salary);
+    }
 
 }
